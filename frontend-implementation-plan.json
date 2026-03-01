@@ -1,0 +1,73 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Remove BookOpen, MessageSquare, Hash, Layers, and HandMetal icons/headlines from the UI",
+  "requirements": [
+    {
+      "id": "REQ-31",
+      "summary": "Remove all usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons and their associated headline text from all frontend components, replacing them with plain text labels or alternative icons already in use",
+      "acceptanceCriteria": [
+        "The BookOpen icon is not rendered anywhere in the app.",
+        "The MessageSquare icon is not rendered anywhere in the app.",
+        "The Hash icon is not rendered anywhere in the app.",
+        "The Layers icon is not rendered anywhere in the app.",
+        "The HandMetal icon is not rendered anywhere in the app.",
+        "No import statements for BookOpen, MessageSquare, Hash, Layers, or HandMetal remain in any frontend file.",
+        "All UI sections that previously used these icons still display their labels/headings correctly without broken layouts.",
+        "The app compiles and renders without errors."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Navbar.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. Replace icon+headline pairs with plain text navigation labels or use alternative icons already present in the navbar (e.g., Menu, X). Ensure all navigation links remain functional and properly labeled."
+        },
+        {
+          "path": "frontend/src/pages/Dashboard.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. Replace icon-based section headers or feature cards with plain text headings or alternative icons already used in the dashboard (e.g., existing icons for TTS, STT, Sign Camera). Ensure the hero section, stats bar, and lesson grid remain visually complete and all labels are visible."
+        },
+        {
+          "path": "frontend/src/components/LessonCard.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. If these icons were used to indicate lesson category or status, replace them with plain text category labels or use the existing emoji/icon pattern from the lesson data. Ensure the card displays the lesson icon, category, description, progress bar, and completion badge correctly."
+        },
+        {
+          "path": "frontend/src/pages/Help.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. Replace icon-based section headings with plain text headings (e.g., <h2> or <h3> tags with appropriate styling). Ensure all help sections remain clearly labeled and the structured documentation layout is preserved."
+        },
+        {
+          "path": "frontend/src/pages/LessonExercise.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. If these icons were used in the exercise UI or feedback sections, replace them with plain text labels or use alternative icons already present (e.g., CheckCircle, XCircle for feedback). Ensure the exercise flow, TTS controls, and progress tracking remain functional and clearly labeled."
+        },
+        {
+          "path": "frontend/src/pages/SignCamera.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. If these icons were used in the camera interface or mode selection, replace them with plain text labels or use existing camera-related icons (e.g., Camera, SwitchCamera). Ensure the camera preview, gesture recognition feedback, and mode controls remain properly labeled and functional."
+        },
+        {
+          "path": "frontend/src/pages/TTSTool.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. If these icons were used in the TTS tool interface, replace them with plain text labels or use alternative icons already present (e.g., Volume2, Play, Pause). Ensure the text input, voice selection, rate controls, and playback buttons remain clearly labeled."
+        },
+        {
+          "path": "frontend/src/pages/STTTool.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. If these icons were used in the STT tool interface, replace them with plain text labels or use alternative icons already present (e.g., Mic, MicOff). Ensure the microphone controls and transcript display remain properly labeled and functional."
+        },
+        {
+          "path": "frontend/src/pages/Login.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. If these icons were used in the login interface or informational sections, replace them with plain text or alternative icons. Ensure the Internet Identity login flow and any instructional text remain clear."
+        },
+        {
+          "path": "frontend/src/pages/SignUp.tsx",
+          "operation": "modify",
+          "description": "Remove any imports and usages of BookOpen, MessageSquare, Hash, Layers, and HandMetal icons from lucide-react. If these icons were used in the sign-up interface or feature explanation sections, replace them with plain text or alternative icons. Ensure the Internet Identity sign-up flow and security feature explanations remain clear and well-labeled."
+        }
+      ]
+    }
+  ]
+}

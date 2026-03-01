@@ -1,0 +1,340 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 21,
+  "summary": "A learning webapp for mute and deaf people featuring text-to-speech (TTS), speech-to-text (STT), and ISL (Indian Sign Language) sign recognition capabilities. The app includes a Sign Camera page with real-time ISL hand gesture/sign language detection. ASL recognition has been removed — only ISL detection is used. The app now also includes login and sign up pages for user authentication.",
+  "architectural_notes": [
+    "Use Web Speech API for both TTS (SpeechSynthesis) and STT (SpeechRecognition) in the browser",
+    "UI should be highly visual and accessible, prioritizing large text, icons, and visual feedback for deaf/mute users",
+    "Camera/gesture-to-speech pipeline: access device camera via MediaDevices API, process frames for gesture recognition, convert recognized gestures to text, then feed text into SpeechSynthesis for audio output",
+    "ML model integration for gesture recognition: use TensorFlow.js (e.g., Handpose/Fingerpose) or MediaPipe Hands in-browser for real-time sign language detection on the Sign Camera page",
+    "ISL (Indian Sign Language) detection: extend or replace ASL gesture-to-label mappings with ISL-specific hand pose classifications; may require a custom trained model or dataset since off-the-shelf models are typically ASL-focused",
+    "ASL gesture recognition has been removed; only ISL hand pose mappings are used in gestureMapping.ts and useHandGestureRecognition.ts"
+  ],
+  "known_issues": [
+    "Sign Camera page: camera feed (getUserMedia) may not be rendering in the deployed web app despite being implemented",
+    "Practice Speaking: SpeechRecognition blocked with 'not-allowed' error due to browser microphone permissions or non-HTTPS context"
+  ],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-design-and-apply-a-warm-high-contrast-visual-theme-large-readable-typography-bold-accent-colors-like-teal-and-amber-clear-iconography-generous-whitespace-and-accessible-focus-indicators-consistently-across-the-entire-app-to-ensure-readability-and-accessibility-for-mute-and-deaf-users",
+      "title": "Design and apply a warm, high-contrast visual theme (large readable typography, bold accent colors like teal and amber, clear iconography, generous whitespace, and accessible focus indicators) consistently across the entire app to ensure readability and accessibility for mute and deaf users.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-structured-learning-dashboard-as-the-main-page-that-displays-available-lesson-categories-e-g-alphabet-signs-common-phrases-numbers-everyday-vocabulary-with-visual-cards-showing-lesson-title-icon-and-progress-indicator",
+      "title": "Build a structured learning dashboard as the main page that displays available lesson categories (e.g., Alphabet & Signs, Common Phrases, Numbers, Everyday Vocabulary) with visual cards showing lesson title, icon, and progress indicator.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-text-to-speech-tts-feature-using-the-browser-s-built-in-web-speech-api-speechsynthesis-provide-a-dedicated-tts-panel-where-the-user-can-type-or-paste-text-into-a-textarea-choose-a-voice-and-speech-rate-via-controls-and-click-a-speak-button-to-hear-the-text-read-aloud-include-a-stop-button-to-halt-speech",
+      "title": "Implement a Text-to-Speech (TTS) feature using the browser's built-in Web Speech API (SpeechSynthesis). Provide a dedicated TTS panel where the user can type or paste text into a textarea, choose a voice and speech rate via controls, and click a 'Speak' button to hear the text read aloud. Include a 'Stop' button to halt speech.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-speech-to-text-stt-voice-recognizer-feature-using-the-browser-s-built-in-web-speech-api-speechrecognition-provide-a-dedicated-stt-panel-with-a-microphone-button-to-start-stop-recording-display-the-live-interim-transcript-as-the-user-speaks-and-the-finalized-transcript-below-it-include-a-copy-button-to-copy-the-recognized-text",
+      "title": "Implement a Speech-to-Text (STT) / voice recognizer feature using the browser's built-in Web Speech API (SpeechRecognition). Provide a dedicated STT panel with a microphone button to start/stop recording. Display the live interim transcript as the user speaks and the finalized transcript below it. Include a 'Copy' button to copy the recognized text.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-individual-lesson-exercise-pages-each-lesson-page-presents-a-word-or-phrase-with-an-image-its-written-text-and-an-example-sentence-include-a-hear-it-button-that-triggers-tts-for-that-word-phrase-and-a-practice-speaking-button-that-activates-stt-to-let-the-user-attempt-to-say-the-word-and-compares-the-recognized-result-to-the-target-word-showing-a-correct-or-try-again-feedback-message",
+      "title": "Build individual lesson exercise pages. Each lesson page presents a word or phrase with an image, its written text, and an example sentence. Include a 'Hear It' button that triggers TTS for that word/phrase, and a 'Practice Speaking' button that activates STT to let the user attempt to say the word and compares the recognized result to the target word, showing a 'Correct' or 'Try Again' feedback message.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-navigation-bar-at-the-top-of-the-app-with-links-to-home-dashboard-text-to-speech-tool-speech-to-text-tool-and-a-visual-legend-help-page-explaining-how-to-use-the-app-display-the-app-name-silentlearn-and-a-logo-icon-in-the-navbar",
+      "title": "Add a navigation bar at the top of the app with links to: Home (Dashboard), Text-to-Speech tool, Speech-to-Text tool, and a visual legend/help page explaining how to use the app. Display the app name 'SilentLearn' and a logo icon in the navbar.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-sign-camera-page-accessible-from-the-navigation-bar-the-page-must-activate-the-user-s-device-camera-via-browser-getusermedia-api-and-display-a-live-camera-feed-include-a-start-recognition-button-that-begins-capturing-and-analyzing-the-user-s-hand-body-gestures-or-actions-visible-in-the-camera-feed-display-the-recognized-gesture-or-action-as-text-below-the-camera-feed-in-real-time-as-gestures-are-detected",
+      "title": "Add a new 'Sign Camera' page accessible from the navigation bar. The page must activate the user's device camera (via browser getUserMedia API) and display a live camera feed. Include a 'Start Recognition' button that begins capturing and analyzing the user's hand/body gestures or actions visible in the camera feed. Display the recognized gesture or action as text below the camera feed in real time as gestures are detected.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-the-sign-camera-page-once-a-gesture-or-action-is-recognized-and-its-text-is-generated-automatically-pass-that-text-to-the-browser-s-speechsynthesis-tts-api-so-the-recognized-text-is-spoken-aloud-without-requiring-extra-user-interaction-reuse-the-existing-usetts-hook-for-speech-synthesis-include-a-speak-button-so-the-user-can-also-manually-trigger-tts-playback-of-the-latest-recognized-text-and-a-stop-button-to-halt-speech",
+      "title": "On the Sign Camera page, once a gesture or action is recognized and its text is generated, automatically pass that text to the browser's SpeechSynthesis (TTS) API so the recognized text is spoken aloud without requiring extra user interaction. Reuse the existing useTTS hook for speech synthesis. Include a 'Speak' button so the user can also manually trigger TTS playback of the latest recognized text, and a 'Stop' button to halt speech.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-sign-camera-page-so-that-the-live-camera-feed-reliably-activates-and-renders-in-the-deployed-web-app-ensure-the-getusermedia-call-is-invoked-correctly-on-page-load-or-when-the-user-clicks-start-recognition-that-the-resulting-mediastream-is-properly-assigned-to-a-video-element-s-srcobject-and-that-the-video-element-auto-plays-and-is-visible-handle-permission-denied-and-not-supported-errors-gracefully-with-a-clear-user-friendly-message-explaining-how-to-allow-camera-access-in-the-browser-ensure-the-implementation-works-over-https-as-required-by-getusermedia-in-deployed-environments",
+      "title": "Fix the Sign Camera page so that the live camera feed reliably activates and renders in the deployed web app. Ensure the getUserMedia call is invoked correctly on page load (or when the user clicks 'Start Recognition'), that the resulting MediaStream is properly assigned to a video element's srcObject, and that the video element auto-plays and is visible. Handle permission-denied and not-supported errors gracefully with a clear, user-friendly message explaining how to allow camera access in the browser. Ensure the implementation works over HTTPS (as required by getUserMedia in deployed environments).",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-the-practice-speaking-feature-in-lesson-exercise-pages-when-the-speechrecognition-api-returns-a-not-allowed-error-display-a-prominent-user-friendly-in-page-error-message-that-explains-the-microphone-is-blocked-and-provides-step-by-step-instructions-to-fix-it-e-g-click-the-mic-lock-icon-in-the-address-bar-set-microphone-to-allow-reload-the-page-the-message-should-replace-the-generic-recognition-error-not-allowed-text-currently-shown",
+      "title": "On the Practice Speaking feature in lesson exercise pages, when the SpeechRecognition API returns a 'not-allowed' error, display a prominent, user-friendly in-page error message that explains the microphone is blocked and provides step-by-step instructions to fix it (e.g., click the mic/lock icon in the address bar, set microphone to Allow, reload the page). The message should replace the generic 'Recognition error: not-allowed' text currently shown.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-rewrite-the-signcamera-page-so-that-the-live-camera-feed-reliably-activates-and-renders-on-page-mount-or-when-the-user-clicks-start-recognition-call-navigator-mediadevices-getusermedia-video-true-and-assign-the-resulting-mediastream-to-a-video-element-s-srcobject-then-call-video-play-the-video-element-must-be-visible-properly-sized-and-auto-play-without-requiring-additional-user-interaction-if-the-browser-does-not-support-getusermedia-or-the-user-denies-permission-display-a-clear-user-friendly-in-page-error-message-explaining-how-to-allow-camera-access-e-g-click-the-camera-lock-icon-in-the-address-bar-set-camera-to-allow-reload-the-page-the-fix-must-work-correctly-over-https-in-the-deployed-environment",
+      "title": "Rewrite the SignCamera page so that the live camera feed reliably activates and renders. On page mount (or when the user clicks 'Start Recognition'), call navigator.mediaDevices.getUserMedia({ video: true }) and assign the resulting MediaStream to a <video> element's srcObject, then call video.play(). The video element must be visible, properly sized, and auto-play without requiring additional user interaction. If the browser does not support getUserMedia or the user denies permission, display a clear, user-friendly in-page error message explaining how to allow camera access (e.g., 'Click the camera/lock icon in the address bar → set Camera to Allow → reload the page'). The fix must work correctly over HTTPS in the deployed environment.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-microphone-permission-error-handling-on-the-practice-speaking-feature-in-lesson-exercise-pages-and-on-the-stt-tool-page-when-the-speechrecognition-api-returns-a-not-allowed-error-replace-any-generic-error-text-with-a-prominent-styled-in-page-error-banner-that-1-explains-the-microphone-is-blocked-2-provides-step-by-step-browser-instructions-to-fix-it-e-g-click-the-mic-lock-icon-in-the-address-bar-set-microphone-to-allow-reload-the-page-and-3-is-visually-distinct-e-g-amber-or-red-highlighted-box-with-an-icon-ensure-this-improved-error-handling-is-present-in-both-lessonexercise-tsx-and-stttool-tsx",
+      "title": "Fix the microphone permission error handling on the Practice Speaking feature in lesson exercise pages and on the STT Tool page. When the SpeechRecognition API returns a 'not-allowed' error, replace any generic error text with a prominent, styled in-page error banner that: (1) explains the microphone is blocked, (2) provides step-by-step browser instructions to fix it (e.g., 'Click the mic/lock icon in the address bar → set Microphone to Allow → reload the page'), and (3) is visually distinct (e.g., amber or red highlighted box with an icon). Ensure this improved error handling is present in both LessonExercise.tsx and STTTool.tsx.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-a-real-ml-based-hand-gesture-recognition-model-into-the-sign-camera-page-using-tensorflow-js-with-the-mediapipe-hands-or-handpose-model-loaded-entirely-in-the-browser-via-cdn-or-npm-package-replace-the-current-simulated-random-vocabulary-output-with-actual-hand-landmark-detection-running-on-the-live-camera-feed-on-each-detected-gesture-map-the-recognized-hand-pose-to-the-closest-asl-letter-or-sign-label-from-the-existing-lessons-data-and-display-it-as-the-recognized-gesture-text",
+      "title": "Integrate a real ML-based hand/gesture recognition model into the Sign Camera page using TensorFlow.js with the MediaPipe Hands or Handpose model (loaded entirely in the browser via CDN or npm package). Replace the current simulated random-vocabulary output with actual hand landmark detection running on the live camera feed. On each detected gesture, map the recognized hand pose to the closest ASL letter or sign label from the existing lessons data and display it as the recognized gesture text.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-the-sign-camera-page-ensure-that-every-detected-hand-gesture-or-action-is-immediately-converted-to-text-and-displayed-prominently-below-the-camera-feed-the-recognized-text-must-update-in-real-time-as-new-gestures-are-detected-replacing-or-appending-to-the-previous-result-so-the-user-always-sees-the-latest-recognized-action-as-readable-text",
+      "title": "On the Sign Camera page, ensure that every detected hand gesture or action is immediately converted to text and displayed prominently below the camera feed. The recognized text must update in real time as new gestures are detected, replacing or appending to the previous result so the user always sees the latest recognized action as readable text.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-the-sign-camera-page-each-time-a-gesture-or-action-is-recognized-and-its-text-is-generated-automatically-pass-that-text-to-the-browser-s-speechsynthesis-tts-api-so-it-is-spoken-aloud-immediately-without-requiring-additional-user-interaction-reuse-the-existing-usetts-hook-also-provide-a-speak-button-to-manually-re-trigger-tts-playback-of-the-latest-recognized-text-and-a-stop-button-to-halt-speech-at-any-time-ensure-tts-is-not-triggered-repeatedly-for-the-same-gesture-debounce-or-deduplicate-so-each-unique-recognized-text-is-only-spoken-once-per-detection-cycle",
+      "title": "On the Sign Camera page, each time a gesture or action is recognized and its text is generated, automatically pass that text to the browser's SpeechSynthesis (TTS) API so it is spoken aloud immediately without requiring additional user interaction. Reuse the existing useTTS hook. Also provide a 'Speak' button to manually re-trigger TTS playback of the latest recognized text, and a 'Stop' button to halt speech at any time. Ensure TTS is not triggered repeatedly for the same gesture — debounce or deduplicate so each unique recognized text is only spoken once per detection cycle.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-dedicated-sign-language-lessons-section-to-the-dashboard-that-presents-learning-exercises-specifically-structured-around-sign-language-each-exercise-should-display-a-target-asl-sign-letter-show-an-instructional-illustration-or-description-of-how-to-form-the-sign-and-provide-a-practice-with-camera-button-that-opens-the-sign-camera-in-a-focused-practice-mode-for-that-specific-sign",
+      "title": "Add a dedicated 'Sign Language Lessons' section to the Dashboard that presents learning exercises specifically structured around sign language. Each exercise should display a target ASL sign/letter, show an instructional illustration or description of how to form the sign, and provide a 'Practice with Camera' button that opens the Sign Camera in a focused practice mode for that specific sign.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-sign-camera-page-with-a-guided-practice-mode-when-launched-from-a-lesson-exercise-with-a-target-sign-display-the-target-sign-label-prominently-above-the-camera-feed-run-real-time-gesture-recognition-via-the-existing-usehandgesturerecognition-hook-and-automatically-evaluate-whether-the-detected-gesture-matches-the-target-sign-show-a-correct-success-banner-when-the-recognized-gesture-matches-the-target-or-a-keep-trying-prompt-when-it-does-not",
+      "title": "Extend the Sign Camera page with a guided practice mode: when launched from a lesson exercise with a target sign, display the target sign label prominently above the camera feed, run real-time gesture recognition via the existing useHandGestureRecognition hook, and automatically evaluate whether the detected gesture matches the target sign. Show a 'Correct!' success banner when the recognized gesture matches the target, or a 'Keep trying…' prompt when it does not.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-sign-language-lesson-data-to-the-existing-lessons-data-file-frontend-src-data-lessons-ts-create-a-new-lesson-category-titled-sign-language-asl-containing-at-least-10-exercises-covering-the-asl-alphabet-letters-a-j-each-exercise-should-include-the-sign-label-as-the-word-a-short-description-of-the-hand-shape-as-the-example-sentence-and-a-placeholder-image-reference",
+      "title": "Add sign language lesson data to the existing lessons data file (frontend/src/data/lessons.ts). Create a new lesson category titled 'Sign Language (ASL)' containing at least 10 exercises covering the ASL alphabet letters (A–J). Each exercise should include the sign label as the word, a short description of the hand shape as the example sentence, and a placeholder image reference.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-help-page-frontend-src-pages-help-tsx-to-include-a-section-explaining-the-sign-language-recognizer-feature-describe-how-to-navigate-to-the-sign-camera-how-to-use-the-camera-to-practice-signing-how-gesture-recognition-works-and-tips-for-good-lighting-and-hand-positioning-to-improve-recognition-accuracy",
+      "title": "Update the Help page (frontend/src/pages/Help.tsx) to include a section explaining the Sign Language Recognizer feature: describe how to navigate to the Sign Camera, how to use the camera to practice signing, how gesture recognition works, and tips for good lighting and hand positioning to improve recognition accuracy.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-gesture-mapping-logic-in-frontend-src-utils-gesturemapping-ts-to-support-indian-sign-language-isl-hand-poses-replace-or-extend-the-existing-asl-letter-heuristics-with-isl-specific-hand-landmark-patterns-covering-the-isl-alphabet-a-z-and-common-isl-signs-the-mapping-must-use-the-same-21-point-mediapipe-handpose-landmark-format-already-consumed-by-the-existing-usehandgesturerecognition-hook",
+      "title": "Update the gesture mapping logic in `frontend/src/utils/gestureMapping.ts` to support Indian Sign Language (ISL) hand poses. Replace or extend the existing ASL letter heuristics with ISL-specific hand landmark patterns covering the ISL alphabet (A–Z) and common ISL signs. The mapping must use the same 21-point MediaPipe/Handpose landmark format already consumed by the existing `useHandGestureRecognition` hook.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-frontend-src-hooks-usehandgesturerecognition-ts-to-call-the-isl-gesture-classifier-from-gesturemapping-ts-instead-of-or-in-addition-to-the-asl-classifier-the-hook-must-return-real-time-isl-sign-labels-as-the-recognized-gesture-text-whenever-a-hand-is-detected-in-the-camera-feed",
+      "title": "Update `frontend/src/hooks/useHandGestureRecognition.ts` to call the ISL gesture classifier from `gestureMapping.ts` instead of (or in addition to) the ASL classifier. The hook must return real-time ISL sign labels as the recognized gesture text whenever a hand is detected in the camera feed.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-frontend-src-pages-signcamera-tsx-to-label-the-recognition-mode-as-isl-indian-sign-language-in-the-ui-add-a-visible-mode-indicator-or-badge-on-the-camera-page-so-the-user-knows-they-are-using-isl-detection-update-any-on-screen-instructions-or-captions-that-previously-referenced-asl-to-reference-isl",
+      "title": "Update `frontend/src/pages/SignCamera.tsx` to label the recognition mode as 'ISL (Indian Sign Language)' in the UI. Add a visible mode indicator or badge on the camera page so the user knows they are using ISL detection. Update any on-screen instructions or captions that previously referenced 'ASL' to reference 'ISL'.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-lesson-category-titled-sign-language-isl-to-frontend-src-data-lessons-ts-containing-at-least-10-exercises-covering-isl-alphabet-letters-a-j-each-exercise-must-include-the-isl-sign-label-as-the-word-a-short-description-of-the-isl-hand-shape-as-the-example-sentence-and-a-placeholder-image-reference",
+      "title": "Add a new lesson category titled 'Sign Language (ISL)' to `frontend/src/data/lessons.ts` containing at least 10 exercises covering ISL alphabet letters (A–J). Each exercise must include the ISL sign label as the word, a short description of the ISL hand shape as the example sentence, and a placeholder image reference.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-help-page-frontend-src-pages-help-tsx-to-replace-or-supplement-asl-specific-guidance-with-isl-indian-sign-language-information-describe-isl-sign-detection-how-to-navigate-to-the-sign-camera-for-isl-practice-and-tips-for-hand-positioning-and-lighting-specific-to-isl-sign-recognition",
+      "title": "Update the Help page (`frontend/src/pages/Help.tsx`) to replace or supplement ASL-specific guidance with ISL (Indian Sign Language) information. Describe ISL sign detection, how to navigate to the Sign Camera for ISL practice, and tips for hand positioning and lighting specific to ISL sign recognition.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-all-asl-real-time-sign-recognition-code-from-frontend-src-utils-gesturemapping-ts-frontend-src-hooks-usehandgesturerecognition-ts-and-frontend-src-pages-signcamera-tsx-retain-only-the-isl-indian-sign-language-gesture-classifier-and-mapping-delete-any-asl-specific-heuristics-finger-pattern-definitions-and-mode-switching-logic-the-hook-must-exclusively-call-the-isl-classifier-and-return-isl-sign-labels",
+      "title": "Remove all ASL real-time sign recognition code from `frontend/src/utils/gestureMapping.ts`, `frontend/src/hooks/useHandGestureRecognition.ts`, and `frontend/src/pages/SignCamera.tsx`. Retain only the ISL (Indian Sign Language) gesture classifier and mapping. Delete any ASL-specific heuristics, finger-pattern definitions, and mode-switching logic. The hook must exclusively call the ISL classifier and return ISL sign labels.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-sign-language-asl-lesson-category-from-frontend-src-data-lessons-ts-keep-the-sign-language-isl-category-and-all-other-existing-categories-intact",
+      "title": "Remove the 'Sign Language (ASL)' lesson category from `frontend/src/data/lessons.ts`. Keep the 'Sign Language (ISL)' category and all other existing categories intact.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-login-page-frontend-src-pages-login-tsx-that-allows-users-to-sign-in-using-internet-identity-the-page-must-display-the-silentlearn-branding-a-prominent-login-with-internet-identity-button-that-triggers-the-existing-useinternetidentity-hook-s-login-flow-and-a-link-to-the-sign-up-page-after-successful-login-redirect-the-user-to-the-dashboard-style-the-page-consistently-with-the-existing-warm-high-contrast-teal-amber-theme",
+      "title": "Add a Login page (`frontend/src/pages/Login.tsx`) that allows users to sign in using Internet Identity. The page must display the SilentLearn branding, a prominent 'Login with Internet Identity' button that triggers the existing `useInternetIdentity` hook's login flow, and a link to the Sign Up page. After successful login, redirect the user to the Dashboard. Style the page consistently with the existing warm, high-contrast teal/amber theme.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-sign-up-page-frontend-src-pages-signup-tsx-that-onboards-new-users-via-internet-identity-the-page-must-display-the-silentlearn-branding-a-brief-explanation-of-what-internet-identity-is-a-create-account-with-internet-identity-button-that-triggers-the-internet-identity-registration-login-flow-via-the-existing-useinternetidentity-hook-and-a-link-back-to-the-login-page-after-the-identity-is-created-and-authenticated-redirect-the-user-to-the-dashboard-style-the-page-consistently-with-the-existing-warm-high-contrast-teal-amber-theme",
+      "title": "Add a Sign Up page (`frontend/src/pages/SignUp.tsx`) that onboards new users via Internet Identity. The page must display the SilentLearn branding, a brief explanation of what Internet Identity is, a 'Create Account with Internet Identity' button that triggers the Internet Identity registration/login flow via the existing `useInternetIdentity` hook, and a link back to the Login page. After the identity is created and authenticated, redirect the user to the Dashboard. Style the page consistently with the existing warm, high-contrast teal/amber theme.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-register-the-login-and-signup-routes-in-frontend-src-app-tsx-tanstack-router-update-the-navbar-frontend-src-components-navbar-tsx-to-show-a-login-link-when-the-user-is-not-authenticated-and-a-logout-button-using-useinternetidentity-s-logout-method-when-authenticated-if-an-unauthenticated-user-tries-to-access-a-protected-route-dashboard-lesson-exercise-sign-camera-redirect-them-to-login",
+      "title": "Register the /login and /signup routes in `frontend/src/App.tsx` (TanStack Router). Update the Navbar (`frontend/src/components/Navbar.tsx`) to show a 'Login' link when the user is not authenticated and a 'Logout' button (using `useInternetIdentity`'s logout method) when authenticated. If an unauthenticated user tries to access a protected route (Dashboard, Lesson Exercise, Sign Camera), redirect them to /login.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-all-usages-of-the-bookopen-messagesquare-hash-layers-and-handmetal-icons-from-lucide-react-or-any-icon-library-and-their-associated-headline-label-text-from-all-frontend-components-and-pages-including-but-not-limited-to-navbar-tsx-dashboard-tsx-lessoncard-tsx-help-tsx-and-any-other-file-that-imports-or-renders-these-icons-replace-each-removed-icon-headline-pair-with-equivalent-plain-text-labels-or-alternative-icons-that-are-already-in-use-elsewhere-in-the-app-ensuring-no-visible-ui-section-loses-its-label-or-becomes-broken",
+      "title": "Remove all usages of the BookOpen, MessageSquare, Hash, Layers, and HandMetal icons (from lucide-react or any icon library) and their associated headline/label text from all frontend components and pages (including but not limited to Navbar.tsx, Dashboard.tsx, LessonCard.tsx, Help.tsx, and any other file that imports or renders these icons). Replace each removed icon+headline pair with equivalent plain text labels or alternative icons that are already in use elsewhere in the app, ensuring no visible UI section loses its label or becomes broken.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Text-to-speech (TTS) feature to convert typed text into spoken audio",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Speech-to-text (STT) / voice recognizer feature to convert spoken audio into text",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Learning webapp structure with lessons or exercises tailored for mute and deaf users",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Store lesson progress (which lessons have been started and completed, and per-lesson scores) in the backend Motoko actor so that progress persists across sessions. Expose query and update methods to read and write progress keyed by a user identifier (use a simple anonymous session key for now).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Camera-based sign language / gesture recognition: use the device camera to detect user gestures/actions, convert them to text, then automatically pass that text to TTS (speech synthesis) so the output is spoken aloud.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Integrate an ML model (e.g., TensorFlow.js or MediaPipe) into the Sign Camera page for real gesture/sign language recognition instead of simulated output.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Add action-to-text and action-to-audio feature: detect user actions/gestures via camera and automatically convert them to text and spoken audio (TTS).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Add a dedicated sign language recognizer feature: use the device camera with an ML model (TensorFlow.js/MediaPipe) to detect and recognize sign language gestures in real time, display the recognized signs as text, and convert them to speech via TTS.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Add real-time ISL (Indian Sign Language) sign detection on the Sign Camera page using an ML model (TensorFlow.js/MediaPipe), replacing or extending the current ASL gesture recognition with ISL-specific hand pose mappings.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Remove ASL real-time sign recognition entirely from the Sign Camera page; retain only ISL (Indian Sign Language) detection.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Add a Login page and a Sign Up page for user authentication.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Remove the BookOpen, MessageSquare, Hash, Layers, and HandMetal icons/headlines from the UI.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "MuteDeaf Learning Hub",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

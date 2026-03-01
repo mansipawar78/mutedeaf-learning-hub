@@ -1,0 +1,29 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-remove-all-usages-of-the-bookopen-messagesquare-hash-layers-and-handmetal-icons-from-lucide-react-or-any-icon-library-and-their-associated-headline-label-text-from-all-frontend-components-and-pages-including-but-not-limited-to-navbar-tsx-dashboard-tsx-lessoncard-tsx-help-tsx-and-any-other-file-that-imports-or-renders-these-icons-replace-each-removed-icon-headline-pair-with-equivalent-plain-text-labels-or-alternative-icons-that-are-already-in-use-elsewhere-in-the-app-ensuring-no-visible-ui-section-loses-its-label-or-becomes-broken",
+      "featureTitle": "Remove all usages of the BookOpen, MessageSquare, Hash, Layers, and HandMetal icons (from lucide-react or any icon library) and their associated headline/label text from all frontend components and pages (including but not limited to Navbar.tsx, Dashboard.tsx, LessonCard.tsx, Help.tsx, and any other file that imports or renders these icons). Replace each removed icon+headline pair with equivalent plain text labels or alternative icons that are already in use elsewhere in the app, ensuring no visible UI section loses its label or becomes broken.",
+      "files": [
+        "frontend/src/components/Navbar.tsx",
+        "frontend/src/pages/Dashboard.tsx",
+        "frontend/src/pages/Help.tsx",
+        "frontend/src/pages/LessonExercise.tsx",
+        "frontend/src/pages/SignCamera.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-31"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

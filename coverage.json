@@ -1,0 +1,54 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-03-01T19:00:14.163Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 1,
+    "implemented": 1,
+    "items": [
+      {
+        "id": "REQ-31",
+        "summary": "Remove all usages of the BookOpen, MessageSquare, Hash, Layers, and HandMetal icons (from lucide-react or any icon library) and their associated headline/label text from all frontend components and pages (including but not limited to Navbar.tsx, Dashboard.tsx, LessonCard.tsx, Help.tsx, and any other file that imports or renders these icons). Replace each removed icon+headline pair with equivalent plain text labels or alternative icons that are already in use elsewhere in the app, ensuring no visible UI section loses its label or becomes broken.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/Navbar.tsx",
+          "frontend/src/pages/Dashboard.tsx",
+          "frontend/src/components/LessonCard.tsx",
+          "frontend/src/pages/Help.tsx",
+          "frontend/src/pages/LessonExercise.tsx",
+          "frontend/src/pages/SignCamera.tsx",
+          "frontend/src/pages/TTSTool.tsx",
+          "frontend/src/pages/STTTool.tsx",
+          "frontend/src/pages/Login.tsx",
+          "frontend/src/pages/SignUp.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/Navbar.tsx",
+          "frontend/src/pages/Dashboard.tsx",
+          "frontend/src/pages/Help.tsx",
+          "frontend/src/pages/LessonExercise.tsx",
+          "frontend/src/pages/SignCamera.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/Navbar.tsx",
+    "frontend/src/pages/Dashboard.tsx",
+    "frontend/src/pages/Help.tsx",
+    "frontend/src/pages/LessonExercise.tsx",
+    "frontend/src/pages/SignCamera.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

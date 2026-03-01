@@ -1,0 +1,44 @@
+{
+  "kind": "build_request",
+  "title": "Remove BookOpen, MessageSquare, Hash, Layers, and HandMetal icons/headlines from the UI",
+  "projectName": "SilentLearn",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-31",
+      "text": "Remove all usages of the BookOpen, MessageSquare, Hash, Layers, and HandMetal icons (from lucide-react or any icon library) and their associated headline/label text from all frontend components and pages (including but not limited to Navbar.tsx, Dashboard.tsx, LessonCard.tsx, Help.tsx, and any other file that imports or renders these icons). Replace each removed icon+headline pair with equivalent plain text labels or alternative icons that are already in use elsewhere in the app, ensuring no visible UI section loses its label or becomes broken.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "will you please remove Book open ,messagesqure,hash,layers ,handmetal headlines"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The BookOpen icon is not rendered anywhere in the app.",
+        "The MessageSquare icon is not rendered anywhere in the app.",
+        "The Hash icon is not rendered anywhere in the app.",
+        "The Layers icon is not rendered anywhere in the app.",
+        "The HandMetal icon is not rendered anywhere in the app.",
+        "No import statements for BookOpen, MessageSquare, Hash, Layers, or HandMetal remain in any frontend file.",
+        "All UI sections that previously used these icons still display their labels/headings correctly without broken layouts.",
+        "The app compiles and renders without errors."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify any files listed in frontend.immutablePaths.",
+    "Do not remove entire UI sections — only remove the specific icons and their associated headline text where the icon is the headline marker."
+  ],
+  "nonGoals": [
+    "Redesigning or restructuring any page layout beyond removing the specified icons and headlines.",
+    "Adding new icons or features beyond replacing the removed ones with plain text or existing icons.",
+    "Any backend changes."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
